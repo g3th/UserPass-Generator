@@ -5,7 +5,7 @@ from random import randint
 import os, requests
 
 
-os.system("cls")
+os.system("cls")                                        #susbstitue to clear for linux
 
 class password_generator():
     
