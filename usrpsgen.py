@@ -10,27 +10,30 @@ def clear():
 
 class password_generator():
 
-	def __init__(self):                                 #constructor and
-		self.num=randint(0,9)                           #variables
+	def __init__(self):                                 
+		self.num=randint(0,9)                          
 		self.sym="{@}#1!'*-=}["
 		self.dig="abcdefghijklmnopqrstuvwxyz"
 	
-	def gen(self):                                      #generator algorithm                    
-		sy=randint(0,11);di=randint(0,25)                                            
-		s=self.sym[sy];d=self.dig[di]
-		randomize=[self.num,s,d]                 
-		r=randint(0,2)
-		passgen=randomize[r]
-		for i in self.dig:
-			if i in str(passgen):
-				passgen.upper()
-		return passgen
-
-	def lcon(self,l):                                   #list to string                           
-		finalpass=""                                
-		for i in l:
-			finalpass=finalpass+str(i)
-		return finalpass
+	def generate_password(self, p_len):
+		passw=[];password='';flag=0
+		while len(passw)<p_len:
+			sy=randint(0,11);di=randint(0,25)
+			s=self.sym[sy];d=self.dig[di]
+			randomize=[self.num,s,d]
+			r=randint(0,2)
+			passgen=randomize[r]
+			if flag ==0:
+				try:
+					if passgen.isalpha():
+						passgen = passgen.upper(); flag =1
+				except:
+					pass	
+			passw.append(passgen)
+			passw=list(dict.fromkeys(passw))
+		for char in passw:
+			password=password+str(char)
+		return str(password)
 
 
 class u_gen():
@@ -67,18 +70,16 @@ while True:                     #user input+validation
 			break
 	except:
 		clear()
-	
+p=password_generator()
 passw=[]
-while len(passw)<opt:                               #eliminate duplicates
-	p=password_generator()                          #(list to dict to list)
-	#print(p.gen())                                 #before str conversion
-	passw.append(p.gen())
-	passw=list(dict.fromkeys(passw))                      
+
+passw.append(p.generate_password(opt))
+#passw=list(dict.fromkeys(passw))                      
 	                                                
-password=p.lcon(passw)
+password=passw
 word=u_gen(); clear()
 print("\nYour generated username: \n")
 print(word.word_scraper())
 print("\nYour generated password: \n")
-print(password)
+print(*password)
 print("\nCheers, ears.\n")
